@@ -4,14 +4,13 @@ from Logic.CRUD import create, read, update, delete
 
 def show_menu():
     print("1. Deschideti CRUD.")
-    print("2. Stergerea tutror cheltuielilor pentru un apartament dat.")
+    """print("2. Stergerea tutror cheltuielilor pentru un apartament dat.")"""
     print("x. Iesire")
 
 def show_CRUD_menu():
     print("1. Adaugare cheltuieli")
     print("2. Modificare cheltuieli")
     print("3. Stergere cheltuieli")
-    print("4. Afisare cheltuieli a unui apartament")
     print("a. Afisare toate cheltuielile")
     print("r. Revenire")
 
@@ -28,9 +27,12 @@ def handle_add(cheltuieli):
     return create(cheltuieli, id, numar_ap, suma, data, tipul)
 
 def handle_cheltuieli_ap(cheltuieli, nr_ap):
-    cheltuieli_ap = read(cheltuieli, nr_ap)
+    """cheltuieli_ap = read(cheltuieli, nr_ap)
     for x in cheltuieli_ap:
         print(to_string_cheltuiala(x))
+    for cheltuiala in cheltuieli:
+        if get_nr_ap(cheltuiala) == nr_ap:
+            print(cheltuiala)"""
 
 def handle_update(cheltuiala):
     id = int(input("Introduceti id-ul cheltuielii: "))
@@ -57,9 +59,6 @@ def handle_CRUD(cheltuieli):
             cheltuieli = handle_update(cheltuieli)
         elif optiune == "3":
             cheltuieli = handle_delete(cheltuieli)
-        elif optiune == "4":
-            nr_ap = input("Dati nr. apartamentului pentru care doriti sa vedeti cheltuielile: ")
-            handle_cheltuieli_ap(cheltuieli, nr_ap)
         elif optiune == "a":
             handle_show_all(cheltuieli)
         elif optiune == "r":
@@ -81,8 +80,6 @@ def run_UI(cheltuieli):
         optiune = input("Dati optiune: ")
         if optiune == "1":
             cheltuieli = handle_CRUD(cheltuieli)
-        elif optiune == "2":
-            cheltuieli = handle_delete_all(cheltuieli)
         elif optiune == "x":
             break
         else:

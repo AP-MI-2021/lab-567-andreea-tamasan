@@ -8,13 +8,8 @@ def creeaza_cheltuiala(id, nr_ap, suma, data, tipul):
         :param tipul: tipul cheltuielii ca string
         :return: o cheltuiala
     """
-    return {
-        "id": int(id),
-        "nr_ap": int(nr_ap),
-        "suma": float(suma),
-        "data": str(data),
-        "tipul": str(tipul),
-    }
+    cheltuiala = (id, nr_ap, suma, data, tipul)
+    return cheltuiala
 
 
 def getId(cheltuiala):
@@ -23,7 +18,7 @@ def getId(cheltuiala):
         :param cheltuiala: un dictionar de tip cheltuiala
         :return: id-ul cheltuielii
         """
-        return cheltuiala["id"]
+        return cheltuiala[0]
 
 
 def get_nr_ap(cheltuiala):
@@ -32,7 +27,7 @@ def get_nr_ap(cheltuiala):
         :param cheltuiala: un dictionar de tip cheltuiala
         :return: numarul apartamentului cheltuielii
         """
-        return cheltuiala["nr_ap"]
+        return cheltuiala[1]
 
 
 def get_suma(cheltuiala):
@@ -41,7 +36,7 @@ def get_suma(cheltuiala):
         :param cheltuiala: un dictionar de tip cheltuiala
         :return: valoarea sumei cheltuielii
         """
-        return cheltuiala["suma"]
+        return cheltuiala[2]
 
 
 def get_data(cheltuiala):
@@ -50,7 +45,7 @@ def get_data(cheltuiala):
     :param cheltuiala: un dictionar de tip cheltuiala
     :return: data cheltuielii
     """
-    return cheltuiala["data"]
+    return cheltuiala[3]
 
 
 def get_tipul(cheltuiala):
@@ -59,7 +54,7 @@ def get_tipul(cheltuiala):
         :param cheltuiala: un dictionar de tip cheltuiala
         :return: tipul de cheltuiala
         """
-        return cheltuiala["tipul"]
+        return cheltuiala[4]
 
 
 def to_string_cheltuiala(cheltuiala):
