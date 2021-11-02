@@ -8,7 +8,7 @@ def creeaza_cheltuiala(id, nr_ap, suma, data, tipul):
         :param tipul: tipul cheltuielii ca string
         :return: o cheltuiala
     """
-    cheltuiala = (id, nr_ap, suma, data, tipul)
+    cheltuiala = [id, nr_ap, suma, data, tipul]
     return cheltuiala
 
 
