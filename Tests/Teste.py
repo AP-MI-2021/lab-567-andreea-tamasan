@@ -1,4 +1,4 @@
-from Domain.cheltuiala import creeaza_cheltuiala, getId, get_nr_ap, get_suma, get_tipul, get_data
+from domain.cheltuiala import creeaza_cheltuiala, getId, get_nr_ap, get_suma, get_tipul, get_data
 from Logic.CRUD import create, read, update, delete
 from Logic.Functionalitati import handle_value_date, handle_max_for_type
 

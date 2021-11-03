@@ -1,4 +1,4 @@
-from Domain.cheltuiala import to_string_cheltuiala, creeaza_cheltuiala, get_nr_ap
+from domain.cheltuiala import to_string_cheltuiala, creeaza_cheltuiala, get_nr_ap
 from Logic.CRUD import create, read, update, delete
 from Logic.Functionalitati import handle_delete_all, handle_value_date,handle_max_for_type
 from UserInterface.command_line_console import command_line_console

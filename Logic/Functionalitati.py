@@ -1,4 +1,4 @@
-from Domain.cheltuiala import get_nr_ap, get_data, get_suma, get_tipul
+from domain.cheltuiala import get_nr_ap, get_data, get_suma, get_tipul
 from Logic.CRUD import delete
 
 def handle_delete_all(cheltuieli, nr_ap):

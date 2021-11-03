@@ -1,5 +1,5 @@
 from Logic.CRUD import create,delete
-from Domain.cheltuiala import to_string_cheltuiala, get_nr_ap
+from domain.cheltuiala import to_string_cheltuiala, get_nr_ap
 from Logic.Functionalitati import handle_delete_all
 
 
@@ -16,15 +16,23 @@ def command_line_console(list):
         optiune = input("Dati comanda separate prin elementele prin ,")
         optiune = optiune.split(",")
         if optiune[0] == "add":
-                id = optiune[1]
-                nr_ap = optiune[2]
-                suma = optiune[3]
-                data = optiune[4]
-                tipul = optiune[5]
-                list = create( list,id,nr_ap,suma,data,tipul)
+            try:
+                    id = optiune[1]
+                    nr_ap = optiune[2]
+                    suma = optiune[3]
+                    data = optiune[4]
+                    tipul = optiune[5]
+            except ValueError as ve:
+                print("Eroare: {}".format(ve))
+                return list
+            list = create( list,id,nr_ap,suma,data,tipul)
         elif optiune[0] == "delete":
+             try:
                 nr_ap = int(optiune[1])
-                list = handle_delete_all(list, nr_ap)
+             except ValueError as ve:
+                print("Eroare: {}".format(ve))
+                return list
+             list = handle_delete_all(list, nr_ap)
         elif optiune[0] == "showall":
                 for x in list:
                     print(to_string_cheltuiala(x))
