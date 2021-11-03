@@ -1,6 +1,7 @@
 from Domain.cheltuiala import to_string_cheltuiala, creeaza_cheltuiala, get_nr_ap
 from Logic.CRUD import create, read, update, delete
 from Logic.Functionalitati import handle_delete_all, handle_value_date,handle_max_for_type
+from UserInterface.command_line_console import command_line_console
 
 
 def show_menu():
@@ -8,6 +9,7 @@ def show_menu():
     print("2. Stergerea tuturor cheltuielilor pentru un apartament dat.")
     print("3. Adunarea unei valori la toate cheltuielile dintr-o data data.")
     print("4. Determinarea celei mai mari cheltuieli pentru fiecare tip. ")
+    print("5. Interfata noua")
     print("a. Afisare toate cheltuielile.")
     print("x. Iesire")
 
@@ -107,6 +109,8 @@ def run_UI(cheltuieli):
             rezultat = handle_max_for_type(cheltuieli)
             for tip in rezultat:
                 print("Pentru cheltuiala de tip {} suma maxima este: {}".format(tip,rezultat[tip]))
+        elif optiune == "5":
+            command_line_console(cheltuieli)
         elif optiune == "a":
             handle_show_all(cheltuieli)
         elif optiune == "x":
