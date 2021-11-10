@@ -1,3 +1,5 @@
+from datetime import datetime
+
 def creeaza_cheltuiala(id, nr_ap, suma, data, tipul):
     """
         Creeaza o noua cheltuiala.
@@ -56,6 +58,10 @@ def get_tipul(cheltuiala):
         """
         return cheltuiala[4]
 
+
+def get_month(cheltuiala):
+    list = get_data(cheltuiala).split(".")
+    return list[1] + " " + list[2]
 
 def to_string_cheltuiala(cheltuiala):
         """
