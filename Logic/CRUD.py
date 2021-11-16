@@ -1,3 +1,5 @@
+import copy
+
 from domain.cheltuiala import creeaza_cheltuiala, getId, get_nr_ap
 
 
@@ -13,7 +15,7 @@ def create(list_cheltuieli, id, nr_ap, suma, data, tipul, undoList, redoList):
     :return: o lista in care s-a adaugat o noua cheltuiala
     """
     cheltuiala = creeaza_cheltuiala(id, nr_ap, suma, data, tipul)
-    rezultat = list_cheltuieli + [cheltuiala]
+    rezultat = copy.deepcopy(list_cheltuieli) + [cheltuiala]
     undoList.append(list_cheltuieli)
     redoList.clear()
     return rezultat

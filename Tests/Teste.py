@@ -1,16 +1,18 @@
+import copy
+
 from domain.cheltuiala import creeaza_cheltuiala, getId, get_nr_ap, get_suma, get_tipul, get_data
 from Logic.CRUD import create, read, update, delete
-from UserInterface.UserInterface import undo,redo
+from UserInterface.UserInterface import undo, redo
 from Logic.Functionalitati import handle_value_date, handle_max_for_type, sort_for_sum, montly_sum_for_each_ap
 
 
 def get_data():
         return [
-                creeaza_cheltuiala(1,1,150, "12.05.2019", "alte cheltuieli"),
-                creeaza_cheltuiala(2,2,300, "05.10.2011", "intretinere"),
-                creeaza_cheltuiala(3,3,750, "11.06.1990", "intretinere"),
-                creeaza_cheltuiala(4,4,500, "08.08.1999", "canal"),
-                creeaza_cheltuiala(5,5,100, "10.01.2021", "intretinere"),
+                creeaza_cheltuiala(1, 1, 150, "12.05.2019", "alte cheltuieli"),
+                creeaza_cheltuiala(2, 2, 300, "05.10.2011", "intretinere"),
+                creeaza_cheltuiala(3, 3, 750, "11.06.1990", "intretinere"),
+                creeaza_cheltuiala(4, 4, 500, "08.08.1999", "canal"),
+                creeaza_cheltuiala(5, 5, 100, "10.01.2021", "intretinere"),
         ]
 
 
@@ -115,12 +117,49 @@ def test_undo_redo():
         cheltuieli = create(cheltuieli, 10, 7, 300, "05.02.2019", "alte cheltuieli", undoList,redoList)
         cheltuieli = create(cheltuieli, 11, 8, 550, "15.01.2020", "intretinere", undoList, redoList)
         cheltuieli = create(cheltuieli, 12, 9, 350, "01.12.2020", "canal", undoList,redoList)
-        cheltuieli = undo(cheltuieli, undoList,redoList)
+        cheltuieli = undo(cheltuieli, undoList, redoList)
         assert len(cheltuieli) == 2
+        assert getId(cheltuieli[0]) == 10
+        assert getId(cheltuieli[1]) == 11
         cheltuieli = undo(cheltuieli,undoList,redoList)
         assert len(cheltuieli) == 1
+        assert getId(cheltuieli[0]) == 10
         cheltuieli = undo(cheltuieli,undoList,redoList)
         assert cheltuieli == []
+        cheltuieli = undo(cheltuieli, undoList, redoList)
+        assert cheltuieli == []
+        cheltuieli = create(cheltuieli, 10, 10, 300, "05.02.2019", "alte cheltuieli", undoList, redoList)
+        cheltuieli = create(cheltuieli, 11, 11, 550, "15.01.2020", "canal", undoList, redoList)
+        cheltuieli = create(cheltuieli, 12, 12, 350, "01.12.2020", "canal", undoList, redoList)
+        cheltuieli_test = cheltuieli
+        cheltuieli = redo(cheltuieli, redoList, undoList)
+        assert cheltuieli_test == cheltuieli
+        cheltuieli = undo(cheltuieli, undoList, redoList)
+        assert len(cheltuieli) == 2
+        assert getId(cheltuieli[0]) == 10
+        assert getId(cheltuieli[1]) == 11
+        cheltuieli = undo(cheltuieli, undoList, redoList)
+        assert len(cheltuieli) == 1
+        assert getId(cheltuieli[0]) == 10
+        cheltuieli = create(cheltuieli, 14, 150, 220, "20.03.2002", "alte cheltuieli", undoList, redoList)
+        cheltuieli_test = cheltuieli
+        cheltuieli = redo(cheltuieli, redoList, undoList)
+        assert cheltuieli_test == cheltuieli
+        cheltuieli = undo(cheltuieli, undoList, redoList)
+        assert len(cheltuieli) == 1
+        assert getId(cheltuieli[0]) == 10
+        cheltuieli = undo(cheltuieli, undoList, redoList)
+        assert cheltuieli == []
+        cheltuieli = redo(cheltuieli, redoList, undoList)
+        assert len(cheltuieli) == 1
+        assert getId(cheltuieli[0]) == 10
+        cheltuieli = redo(cheltuieli, redoList, undoList)
+        assert len(cheltuieli) == 2
+        assert getId(cheltuieli[0]) == 10
+        assert getId(cheltuieli[1]) == 14
+        cheltuieli_test = copy.deepcopy(cheltuieli)
+        cheltuieli = redo(cheltuieli, redoList, undoList)
+        assert cheltuieli_test == cheltuieli
 
 
 def test_all():

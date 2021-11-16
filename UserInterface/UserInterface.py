@@ -76,14 +76,15 @@ def handle_delete(cheltuiala, undoList, redoList):
     try:
         numar_ap = int(input("Dati numarul apartamentului care doriti sa il stergeti: "))
         handle_cheltuieli_ap(cheltuiala, numar_ap)
-        return delete(cheltuiala, numar_ap, undoList, redoList)
+        rezultat = delete(cheltuiala, numar_ap, undoList, redoList)
+        return rezultat
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return cheltuiala
 
 
 
-def m_undo(cheltuieli, undoList, redoList):
+def undo(cheltuieli, undoList, redoList):
     """
     Functia care face undo.
     :param cheltuieli: lista de cheltuieli
@@ -92,12 +93,13 @@ def m_undo(cheltuieli, undoList, redoList):
     return: in caz ca exista operatii de undo, returneaza lista dupa undo,
             in caz contrar, returneaza lista nemodificata
     """
-    if undoList:
-        redoList.append(cheltuieli)
-        return undoList.pop()
-    return cheltuieli
+    if len(undoList) == 0:
+        return cheltuieli
+    redoList.append(cheltuieli)
+    lista = undoList.pop()
+    return lista
 
-def m_redo(cheltuieli, redoList, undoList):
+def redo(cheltuieli, redoList, undoList):
     """
     Functie de redo.
     :param cheltuieli: lista de cheltuieli.
@@ -106,23 +108,23 @@ def m_redo(cheltuieli, redoList, undoList):
     return: in caz ca exista operatii de redo, returneaza lista dupa redo,
             in caz contrar, returneaza lista nemodificata
     """
-    if redoList:
-        top_redo = redoList.pop()
-        undoList.append(cheltuieli)
-        return top_redo
-    return cheltuieli
+    if len(redoList) == 0:
+        return cheltuieli
+    undoList.append(cheltuieli)
+    lista = redoList.pop()
+    return lista
 
-def undo(cheltuieli, redoList, undoList):
-    undoList = m_undo(cheltuieli, redoList, undoList)
-    if undoList is not None:
-        return undoList
-    return cheltuieli
+#def undo(cheltuieli, undoList, redoList):
+ #   undoList = m_undo(cheltuieli, redoList, undoList)
+ #   if undoList is not None:
+#        return undoList
+#    return cheltuieli
 
-def redo(cheltuieli, redoList, undoList):
-    redoList= m_redo(cheltuieli, redoList, undoList)
-    if redoList is not None:
-        return redoList
-    return cheltuieli
+#def redo(cheltuieli, redoList, undoList):
+ #   redoList= m_redo(cheltuieli, redoList, undoList)
+  #  if redoList is not None:
+   #     return redoList
+    #return cheltuieli
 
 
 def handle_montly_sum_for_each_ap(cheltuieli):
@@ -142,9 +144,9 @@ def handle_sort_for_sum(cheltuieli):
     handle_show_all(sort_for_sum(cheltuieli))
 
 def run_UI(cheltuieli):
+    undoList = []
+    redoList = []
     while True:
-        undoList = []
-        redoList = []
         show_menu()
         optiune = input("Dati optiune: ")
         if optiune == "1":
@@ -181,7 +183,7 @@ def run_UI(cheltuieli):
         elif optiune == "u":
             cheltuieli = undo(cheltuieli, undoList, redoList)
         elif optiune == "r":
-            cheltuieli = redo(cheltuieli, undoList, redoList)
+            cheltuieli = redo(cheltuieli, redoList, undoList)
         elif optiune == "a":
             handle_show_all(cheltuieli)
         elif optiune == "x":

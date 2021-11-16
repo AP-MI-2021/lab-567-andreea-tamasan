@@ -1,5 +1,7 @@
 from datetime import datetime
 
+tipuri_permise = ["intretinere", "canal", "alte cheltuieli"]
+
 def creeaza_cheltuiala(id, nr_ap, suma, data, tipul):
     """
         Creeaza o noua cheltuiala.
@@ -10,6 +12,8 @@ def creeaza_cheltuiala(id, nr_ap, suma, data, tipul):
         :param tipul: tipul cheltuielii ca string
         :return: o cheltuiala
     """
+    if tipul not in tipuri_permise:
+        raise ValueError(f"tipurile permise sunt:{tipuri_permise[0]}, {tipuri_permise[1]}, {tipuri_permise[2]}")
     cheltuiala = [id, nr_ap, suma, data, tipul]
     return cheltuiala
 

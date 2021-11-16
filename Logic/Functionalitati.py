@@ -1,5 +1,7 @@
-from domain.cheltuiala import get_nr_ap, get_data, get_suma, get_tipul, get_month
-from Logic.CRUD import delete
+import copy
+from domain.cheltuiala import get_nr_ap, get_data, get_suma, get_tipul, get_month, creeaza_cheltuiala, getId
+from Logic.CRUD import delete,update
+
 
 def handle_delete_all(cheltuieli, nr_ap, undoList, redoList):
     """
@@ -8,10 +10,17 @@ def handle_delete_all(cheltuieli, nr_ap, undoList, redoList):
     :nr_ap: numar apartament
     return: o lista noua din care lipsesc cheltuielile a caror nr. de apartamnt este egal cu cel dat
     """
-    for x in cheltuieli:
+    rezultat = copy.deepcopy(cheltuieli)
+    k_pop = 0
+    for x in rezultat:
         if nr_ap == get_nr_ap(x):
-            cheltuieli = delete(cheltuieli, get_nr_ap(x),undoList,redoList)
-    return cheltuieli
+            rezultat = delete(rezultat, get_nr_ap(x),undoList,redoList)
+            k_pop += 1
+    for y in range(k_pop):
+        undoList.pop()
+    undoList.append(cheltuieli)
+    redoList.clear()
+    return rezultat
 
 
 def handle_value_date(cheltuieli, data, valoare, undoList, redoList):
@@ -22,11 +31,19 @@ def handle_value_date(cheltuieli, data, valoare, undoList, redoList):
     :valoarea: nr. pe care dorim sa il adunam cheltuielii
     return: lista initiala la care s-a adaugat o valoare sumei cheltuielii
     """
+    k_pop = 0
     for x in cheltuieli:
         if data == get_data(x):
-            x[2] += valoare
-    undoList.append(cheltuieli)
-    redoList.clear()
+            cheltuieli = update(cheltuieli, creeaza_cheltuiala(
+                getId(x),
+                get_nr_ap(x),
+                get_suma(x) + valoare,
+                get_data(x),
+                get_tipul(x),
+            ), undoList, redoList)
+            k_pop += 1
+    for y in range(k_pop-1):
+        undoList.pop()
     return cheltuieli
 
 def handle_max_for_type(cheltuieli):

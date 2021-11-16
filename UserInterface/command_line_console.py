@@ -30,71 +30,72 @@ def run_update(parametri, list, undoList, redoList):
 
 
 def command_line_console(list):
+    print_menu_new()
+    undoList = []
+    redoList = []
     while True:
-        print_menu_new()
-        undoList = []
-        redoList = []
-        optiune = input("Dati comanda separate prin elementele prin ,")
-        optiune = optiune.split(",")
-        if optiune[0] == "add":
-            try:
-                id = int(optiune[1])
-            except ValueError as ve:
-                print("Eroare: {}".format(ve))
-                return list
-            try:
-                nr_ap = int(optiune[2])
-            except ValueError as ve:
-                print("Eroare: {}".format(ve))
-                return list
-            try:
-                suma = optiune[3]
-            except ValueError as ve:
-                print("Eroare: {}".format(ve))
-                return list
-            try:
-                    data = str(optiune[4])
-            except ValueError as ve:
+        optiuni = input("Dati comanda separate prin elementele prin ;")
+        optiuni = optiuni.split(";")
+        for optiune in optiuni:
+            if optiune[0:3] == "add":
+                try:
+                    id = int(optiune.split(",")[1])
+                except ValueError as ve:
                     print("Eroare: {}".format(ve))
                     return list
-            try:
-                    tipul = str(optiune[5])
-            except ValueError as ve:
+                try:
+                    nr_ap = int(optiune.split(",")[2])
+                except ValueError as ve:
                     print("Eroare: {}".format(ve))
                     return list
-            try:
-                list = create( list,id,nr_ap,suma,data,tipul,undoList,redoList)
-            except ValueError as ve:
+                try:
+                    suma = optiune.split(",")[3]
+                except ValueError as ve:
                     print("Eroare: {}".format(ve))
                     return list
-        elif optiune[0] == "delete":
-             try:
-                nr_ap = int(optiune[1])
-             except ValueError as ve:
-                print("Eroare: {}".format(ve))
-                return list
-             list = handle_delete_all(list, nr_ap,undoList,redoList)
-        elif optiune[0] == "update":
-            list = run_update(optiune[1:],list,undoList, redoList)
-        elif optiune[0] == "showall":
+                try:
+                        data = str(optiune.split(",")[4])
+                except ValueError as ve:
+                        print("Eroare: {}".format(ve))
+                        return list
+                try:
+                        tipul = str(optiune.split(",")[5])
+                except ValueError as ve:
+                        print("Eroare: {}".format(ve))
+                        return list
+                try:
+                    list = create( list,id,nr_ap,suma,data,tipul,undoList,redoList)
+                except ValueError as ve:
+                        print("Eroare: {}".format(ve))
+                        return list
+            elif optiune[0:6] == "delete":
+                 try:
+                    nr_ap = int(optiune.split(",")[1])
+                 except ValueError as ve:
+                    print("Eroare: {}".format(ve))
+                    return list
+                 list = handle_delete_all(list, nr_ap,undoList,redoList)
+            elif optiune[0:6] == "update":
+                list = run_update(optiune[1:],list,undoList, redoList)
+            elif optiune[0:7] == "showall":
                 for x in list:
                     print(to_string_cheltuiala(x))
-        elif optiune[0] == "undo":
-            if len(undoList) > 0:
-                redoList.append(list)
-                list = undoList.pop()
+            elif optiune[0:4] == "undo":
+                if len(undoList) > 0:
+                    redoList.append(list)
+                    list = undoList.pop()
+                else:
+                    print(" Nu se poate efectua undo. ")
+            elif optiune[0:4] == "redo":
+                if len(redoList) > 0:
+                    undoList.append(list)
+                    list = redoList.pop()
+                else:
+                    print(" Nu se poate efctua redo. ")
+            elif optiune[0:4] == "exit":
+                        return list
             else:
-                print(" Nu se poate efectua undo. ")
-        elif optiune[0] == "redo":
-            if len(redoList) > 0:
-                undoList.append(list)
-                list = redoList.pop()
-            else:
-                print(" Nu se poate efctua redo. ")
-        elif optiune[0] == "exit":
-                    return list
-        else:
-                    print("Optiune gresita, va rog reincercati!")
+                print("Optiune gresita, va rog reincercati!")
 
 
 
